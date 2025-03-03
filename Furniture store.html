@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Furniture Store</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li {
+            display: inline-block;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #f1c40f;
+        }
+        main {
+            padding: 50px 10%;
+        }
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .collection-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        .product-card .info {
+            padding: 15px;
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .product-card p {
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .product-card .btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product-card .btn:hover {
+            background-color: #218838;
+        }
+        .cart-items {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-total {
+            font-size: 1.5rem;
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .form-field {
+            margin-bottom: 15px;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-field input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Home Again Furnishings</h1>
+        <nav>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="showHome()">Home</a></li>
+                <li><a href="javascript:void(0);" onclick="showCart()">Cart</a></li>
+                <li><a href="javascript:void(0);" onclick="showCheckout()">Checkout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main-content">
+        <div id="home-page" style="display: block;">
+            <h2>Browse Our Furniture Collections</h2>
+            <div class="collection-list">
+                <div class="collection" id="collection-living-room">
+                    <h3>Living Room</h3>
+                    <div class="product-list" id="living-room-products"></div>
+                </div>
+                <div class="collection" id="collection-bedroom">
+                    <h3>Bedroom</h3>
+                    <div class="product-list" id="bedroom-products"></div>
+                    <div class="product-list" id="luxury-bedroom-products"></div>
+                </div>
+                <div class="collection" id="collection-office">
+                    <h3>Office</h3>
+                    <div class="product-list" id="office-products"></div>
+                </div>
+                <div class="collection" id="collection-kitchen">
+                    <h3>Kitchen</h3>
+                    <div class="product-list" id="kitchen-products"></div>
+                </div>
+            </div>
+        </div>
+        <div id="cart-page" style="display: none;">
+            <h2>Your Cart</h2>
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-total">
+                Total: $<span id="total-price">0</span>
+            </div>
+            <button onclick="showCheckout()">Proceed to Checkout</button>
+        </div>
+        <div id="checkout-page" style="display: none;">
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-field">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-field">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" required>
+                </div>
+                <button type="submit">Complete Purchase</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Home Again Furnishings</p>
+    </footer>
+    <script>
+        const products = [
+            { id: 1, name: "Refurbished Sofa", description: "Comfortable and stylish refurbished sofa.", price: 6000, imageUrl: "Refurbished Sofa.jpg", category: "living-room" },
+            { id: 2, name: "Vintage Chair", description: "Beautiful vintage chair with a touch of class.", price: 1200, imageUrl: "VintageChair.jpg", category: "living-room" },
+            { id: 3, name: "Wooden Dining Table", description: "A sturdy wooden dining table perfect for any home.", price: 3000, imageUrl: "woodendiningtable.jpg", category: "kitchen" },
+            { id: 4, name: "King Size Bed", description: "A spacious and comfortable king size bed.", price: 8000, imageUrl: "KingsizeBed.jpg", category: "bedroom" },
+            { id: 5, name: "Office Desk", description: "office desk with ample storage space.", price: 1300, imageUrl: "Office desk.jpg", category: "office" },
+            { id: 6, name: "Ergonomic Chair", description: "Perfect chair for long working hours.", price: 899, imageUrl: "chair.jpg", category: "office" },
+            { id: 7, name: "Premium Nightstand", description: "Sleek premium nightstand for your luxury bedroom.", price: 800, imageUrl: "nightstand.jpg", category: "bedroom" }
+        ];
+        let cart = [];
+        function renderProducts() {
+            document.getElementById("living-room-products").innerHTML = "";
+            document.getElementById("bedroom-products").innerHTML = "";
+            document.getElementById("office-products").innerHTML = "";
+            document.getElementById("kitchen-products").innerHTML = "";
+            products.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.classList.add("product-card");
+                productCard.innerHTML = `
+                    <img src="${product.imageUrl}" alt="${product.name}">
+                    <div class="info">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p><strong>Rs.${product.price}</strong></p>
+                        <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                document.getElementById(`${product.category}-products`).appendChild(productCard);
+            });
+        }
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            showCart();
+        }
+        function renderCart() {
+            const cartItemsDiv = document.getElementById("cart-items");
+            cartItemsDiv.innerHTML = "";
+            let totalPrice = 0;
+            cart.forEach(item => {
+                const cartItem = document.createElement("div");
+                cartItem.classList.add("cart-item");
+                cartItem.innerHTML = `
+                    <p>${item.name} - Rs.${item.price} x ${item.quantity}</p>
+                `;
+                cartItemsDiv.appendChild(cartItem);
+                totalPrice += item.price * item.quantity;
+            });
+            document.getElementById("total-price").innerText = `Rs.${totalPrice}`;
+        }
+        function showHome() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('cart-page').style.display = 'none';
+            document.getElementById('checkout-page').style.display = 'none';
+        }
+        function showCart() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('cart-page').style.display = 'block';
+            document.getElementById('checkout-page').style.display = 'none';
+            renderCart();
+        }
+        function showCheckout() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('cart-page').style.display = 'none';
+            document.getElementById('checkout-page').style.display = 'block';
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            showHome();
+        });
+    </script>
+</body>
+</html>
